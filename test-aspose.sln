@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-aspose", "test-aspose\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-aspose-tests", "test-aspose-tests\test-aspose-tests.csproj", "{7CC7A7DE-29ED-41B9-8725-FB500655CA1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-apose-tree", "test-apose-tree\test-apose-tree.csproj", "{B65C5798-4886-4D93-A041-C05A52DD4975}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7CC7A7DE-29ED-41B9-8725-FB500655CA1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CC7A7DE-29ED-41B9-8725-FB500655CA1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CC7A7DE-29ED-41B9-8725-FB500655CA1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B65C5798-4886-4D93-A041-C05A52DD4975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B65C5798-4886-4D93-A041-C05A52DD4975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B65C5798-4886-4D93-A041-C05A52DD4975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B65C5798-4886-4D93-A041-C05A52DD4975}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

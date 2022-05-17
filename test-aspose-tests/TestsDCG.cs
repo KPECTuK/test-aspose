@@ -8,7 +8,7 @@ using test_aspose;
 namespace test_aspose_tests
 {
 	[TestFixture]
-	public class Tests
+	public class TestsDCG
 	{
 		[TestCaseSource(typeof(SourceSalaryEmployee))]
 		public void SalaryEmployee(SourceSalaryEmployee.Data data)
@@ -16,9 +16,9 @@ namespace test_aspose_tests
 			var company = GroupFactory.Create(data.Employees, data.Links);
 			var result = company
 				.GetSubGroup(data.IndexEmployee)
-				.GetSalaryOn(Extensions.DateTo);
+				.GetSalaryOn(ExtensionsDCG.DateTo);
 			Assert.AreEqual(data.Expected, result, $"on data set name: {data.DataSetName}");
-			var node = Extensions.GraphNodes[data.IndexEmployee];
+			var node = ExtensionsDCG.GraphNodes[data.IndexEmployee];
 			TestContext.Out.WriteLine($"found salary for {node.Name}: {result}");
 		}
 
@@ -27,7 +27,7 @@ namespace test_aspose_tests
 		{
 			var company = GroupFactory.Create(data.Employees, data.Links);
 			var result = company
-				.GetSalaryOn(Extensions.DateTo);
+				.GetSalaryOn(ExtensionsDCG.DateTo);
 			Assert.AreEqual(data.Expected, result, $"on data set name: {data.DataSetName}");
 		}
 
@@ -43,8 +43,8 @@ namespace test_aspose_tests
 		public void RepoRoots()
 		{
 			var repo = new Repository(
-				Extensions.GraphNodes,
-				Extensions.GraphLinks);
+				ExtensionsDCG.GraphNodes,
+				ExtensionsDCG.GraphLinks);
 
 			var components = repo.Connectivity.Distinct().Count();
 
@@ -56,16 +56,16 @@ namespace test_aspose_tests
 			Assert.AreEqual(4, repo.Roots.Count, "root assertion");
 			foreach(var root in repo.Roots)
 			{
-				var node = Extensions.GraphNodes[(int)root];
+				var node = ExtensionsDCG.GraphNodes[(int)root];
 				TestContext.Out.WriteLine($"root found: {node.Name}");
 			}
 			TestContext.Out.Flush();
 
-			Assert.AreEqual(Extensions.GraphCycles.Length, repo.Cycles.Length, "cycles count assertion");
-			for(var index = 0; index < Extensions.GraphCycles.Length; index++)
+			Assert.AreEqual(ExtensionsDCG.GraphCycles.Length, repo.Cycles.Length, "cycles count assertion");
+			for(var index = 0; index < ExtensionsDCG.GraphCycles.Length; index++)
 			{
 				Assert.True(
-					Extensions.GraphCycles[index].SequenceEqual(repo.Cycles[index]),
+					ExtensionsDCG.GraphCycles[index].SequenceEqual(repo.Cycles[index]),
 					$"sequence assertion: {string.Join(", ", repo.Cycles[index])}");
 				TestContext.Out.WriteLine($"cycle found: {string.Join(", ", repo.Cycles[index])}");
 			}
@@ -76,8 +76,8 @@ namespace test_aspose_tests
 		public void RepoIsReachable()
 		{
 			var repo = new Repository(
-				Extensions.GraphNodes,
-				Extensions.GraphLinks);
+				ExtensionsDCG.GraphNodes,
+				ExtensionsDCG.GraphLinks);
 
 			Assert.True(repo.IsReachable(9, 4) == -1, "must: unreachable from 09 to 04: with -1");
 			Assert.True(repo.IsReachable(10, 9) == -1, "must: unreachable from 10 to 09: with -1");
@@ -87,7 +87,7 @@ namespace test_aspose_tests
 		}
 	}
 
-	public static class Extensions
+	public static class ExtensionsDCG
 	{
 		public const int SALARY_BASE = 1000;
 
@@ -161,23 +161,23 @@ namespace test_aspose_tests
 			yield return new Data
 			{
 				DataSetName = "regular_06",
-				Employees = Extensions.GraphNodes,
-				Links = Extensions.GraphLinks,
+				Employees = ExtensionsDCG.GraphNodes,
+				Links = ExtensionsDCG.GraphLinks,
 				IndexEmployee = 6,
 				Expected =
-					Extensions.SALARY_BASE +               // base
-					(Extensions.SALARY_BASE * 6).Div(100), // bonus
+					ExtensionsDCG.SALARY_BASE +               // base
+					(ExtensionsDCG.SALARY_BASE * 6).Div(100), // bonus
 			};
 			yield return new Data
 			{
 				DataSetName = "manager_04",
-				Employees = Extensions.GraphNodes,
-				Links = Extensions.GraphLinks,
+				Employees = ExtensionsDCG.GraphNodes,
+				Links = ExtensionsDCG.GraphLinks,
 				IndexEmployee = 4,
 				Expected =
-					Extensions.SALARY_BASE +                                   // base
-					(Extensions.SALARY_BASE * 10).Div(100) +                   // bonus
-					2 * ((Extensions.SALARY_BASE * 6).Div(100) * 5).Div(1000), // interest
+					ExtensionsDCG.SALARY_BASE +                                   // base
+					(ExtensionsDCG.SALARY_BASE * 10).Div(100) +                   // bonus
+					2 * ((ExtensionsDCG.SALARY_BASE * 6).Div(100) * 5).Div(1000), // interest
 			};
 		}
 	}
@@ -197,8 +197,8 @@ namespace test_aspose_tests
 			yield return new Data
 			{
 				DataSetName = "main company",
-				Employees = Extensions.GraphNodes,
-				Links = Extensions.GraphLinks,
+				Employees = ExtensionsDCG.GraphNodes,
+				Links = ExtensionsDCG.GraphLinks,
 				Expected = 0,
 			};
 		}
