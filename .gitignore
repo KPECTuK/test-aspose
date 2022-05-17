@@ -1,0 +1,6 @@
+_ReS*/
+.vs/
+**/bin/
+**/obj/
+.vscode/
+packages/
