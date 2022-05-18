@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace test_apose_tree
 {
+	//! monad implementation over single repo, not synchronized
+
+	/// <summary> tree linkage </summary>
 	public interface ILink
 	{
 		ILink Chef { get; set; }
@@ -14,6 +17,7 @@ namespace test_apose_tree
 		int GetSalaryOn(Repository over, DateTime on);
 	}
 
+	/// <summary> particular employee: data class </summary>
 	public abstract class EmployeeBase : ILink
 	{
 		public string Name;
@@ -33,6 +37,7 @@ namespace test_apose_tree
 		public abstract int GetSalaryOn(Repository over, DateTime on);
 	}
 
+	/// <summary> particular employee: regular role </summary>
 	public class EmployeeRegular : EmployeeBase
 	{
 		public EmployeeRegular(string name, DateTime accepted, int salaryBase)
@@ -47,6 +52,7 @@ namespace test_apose_tree
 		}
 	}
 
+	/// <summary> particular employee: manager role </summary>
 	public class EmployeeManager : EmployeeBase
 	{
 		public EmployeeManager(string name, DateTime accepted, int salaryBase)
@@ -62,6 +68,7 @@ namespace test_apose_tree
 		}
 	}
 
+	/// <summary> particular employee: sales role </summary>
 	public class EmployeeSales : EmployeeBase
 	{
 		public EmployeeSales(string name, DateTime accepted, int salaryBase)
@@ -71,12 +78,16 @@ namespace test_apose_tree
 		{
 			var @base = SalaryBase;
 			var bonus = ((this.GetYears(on) * 1).Clamp(0, 35) * SalaryBase).Div(100);
-			var group = over.FilterBy(_ => over.IsReachable(_, this) != -1).OrderByDescending(_ => _.Level);
+			var group = over
+				.FilterBy(_ => over.IsReachable(_, this) != -1)
+				.Where(_ => !ReferenceEquals(_, this))
+				.OrderByDescending(_ => _.Level);
 			var interest = group.Select(_ => _.GetSalaryOn(over, on)).Sum(_ => (_ * 3).Div(1000));
 			return @base + bonus + interest;
 		}
 	}
 
+	/// <summary> tree </summary>
 	public class Repository
 	{
 		public readonly List<ILink> Tree = new List<ILink>();
@@ -146,6 +157,7 @@ namespace test_apose_tree
 		}
 	}
 
+	/// <summary> tree builder </summary>
 	public class B
 	{
 		private readonly List<B> _builders = new List<B>();
@@ -180,6 +192,7 @@ namespace test_apose_tree
 		}
 	}
 
+	/// <summary> tree builder node </summary>
 	public class B<T> : B where T : ILink
 	{
 		private readonly string _name;
@@ -208,6 +221,7 @@ namespace test_apose_tree
 		}
 	}
 
+	/// <summary> utility class </summary>
 	public static class Extensions
 	{
 		public static int Clamp(this int source, int left, int right)
@@ -245,6 +259,7 @@ namespace test_apose_tree
 		}
 	}
 
+	/// <summary> custom enumerator to api adaptor </summary>
 	public class Wrapper<T> : IEnumerable<T>
 	{
 		private readonly IEnumerator<T> _enumerator;

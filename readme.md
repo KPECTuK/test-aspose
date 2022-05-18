@@ -42,3 +42,25 @@ __Требуется:__ составить архитектуру классов
 - любые циклы вида s1 > s2 > s3 > s1 недопустимы: соблюдение этого условия вытекает из предыдущего утверждения
 
 Таким образом, для решения задачи достаточно использование структуры данных дерева узлов.
+
+Решение предоставлено в проекте test-apose-tree. Тесты предоставлены в проекте test-apose-tests классе TestTree. тесты утилитарных методов предоставлены в проекте test-apose-tests классе TestDCG. Для тестирования решение используется дерево вида:
+
+![](./tree.png)
+
+Расчет полной стоимости компании в тестах присутствует однако численно произведен в целях экономии времени и ввиду не обязательности по условию задания. Тесты на отказоустойчивость предоставлены в полном объеме как тесты на данных по расчету для работников ролей: служащего, управляющего, продавца, а так же для всей компании без количественной оценки. Задание реализовано в полном объеме.
+
+## Implementation notes
+
+Solution has been implemented as a tree like data structure with a list as a data storage. Data structure should not be changed since initialization (immutable). There is no any service data caching there since it's not necessary to traverse data marking because there are no issues as loops or cycles there. `Repository` class is used to hold all the data. `EmployeeBase` class represent particular employee data for company. `ILink` part of it serves as a calculation handler (facade) and used for node linkage purposes of entire data structure. Particular `EmployeeBase` based types are used as a calculation rules implementation and number of those can be extended to implement different roles. Sort of builder (`B` class family) is used to initialize tree structure by code but it's serves as a tool for that task only and probably should be removed in production purpose app. Application uses "promise like" calculation method, based on `IEnumerator` implementation. That makes code shorter and easier to read but brings less control over it and makes debugging harder.
+
+pros:
+
+- short and easy implementation
+- well known and comparatively ease data structure with high ability to manage and observe
+- ease to extend with additional role rules
+
+cons:
+
+- immutable data structure makes it harder to use solution with large number of employees
+- implicitly generated objects makes resource consumption prediction less clear
+- it's hard to implements multitasking because of single like data holder nature comparing with blackboard pattern
